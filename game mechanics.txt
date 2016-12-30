@@ -1,0 +1,15 @@
+Mechanics/Features 
+
+-Jumping single and double
+
+-points system (every second get X amount of points)
+
+-path the users forced to go through
+
+
+
+graphics
+-character run and jumping
+-background
+-display of points
+-sound effects/music
