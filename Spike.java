@@ -26,4 +26,8 @@ public class Spike extends Obstacle {
 	public int counter() {
 		return i++;
 	}
+
+	public void pass() {
+		t = 0;
+	}
 }

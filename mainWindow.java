@@ -70,7 +70,7 @@ public class mainWindow extends Application {
 
 		final long startNanoTime = System.nanoTime();
 		final double dxdt = 0.0; //Speed
-		final double scrollSpeed = -300.0; //speed of obstacles & background
+		final double scrollSpeed = -400.0; //speed of obstacles & background
 		final double dydt = 75.0; //vertical speed
 		final double g = 400.0; //Restoring gravity
 		final double groundLevel = 322.0; //Ground level position
@@ -129,6 +129,11 @@ public class mainWindow extends Application {
 					}
 				}
 
+				System.out.println(xx);
+				if (xx > spikeLeft*1.2) {
+					spike.setX(xx+800.0);
+				}
+
 				if (mc.isAlive()) {
 					double score = t * 12;
 					scoreLabel.setText("Score: " + Integer.toString((int)score));
@@ -138,7 +143,7 @@ public class mainWindow extends Application {
 					gc.drawImage(mc.getImage(), mc.getX(), mc.getY());
 				} else {
 					gameWindow.setStyle("-fx-background-color: #FFFFFF;");
-					gameWindow.setCenter(new Label("your waifu is shit"));
+					gameWindow.setCenter(new Label("man, you suck"));
 				}
 				
 			}
