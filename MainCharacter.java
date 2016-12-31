@@ -5,6 +5,7 @@ public class MainCharacter {
 	Image mcImage;
 	boolean jumping;
 	boolean doubleJumping;
+	boolean alive = true;
 	double dxdt = 0.0;
 	double dydt = 0.0;
 	double x = 0.0;
@@ -54,6 +55,14 @@ public class MainCharacter {
 
 	public void slide(double dt) {
 		x = x + dxdt*dt;
+	}
+
+	public boolean isAlive() {
+		return alive;
+	}
+
+	public void death() {
+		alive = false;
 	}
 
 	public boolean getJump() {

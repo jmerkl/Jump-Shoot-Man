@@ -46,7 +46,7 @@ public class mainWindow extends Application {
 	public void start(Stage stage) {
 
 		int windowHeight = 400;
-		int windowWidth = 800;
+		int windowWidth = 750;
 
 		BorderPane gameWindow = new BorderPane();
 		gameWindow.setPrefSize(windowWidth, windowHeight);
@@ -55,22 +55,31 @@ public class mainWindow extends Application {
 		Scene scene = new Scene(gameWindow);
 
 		Group root = new Group();
-		Canvas canvas = new Canvas(windowWidth, windowHeight);
-		root.getChildren().add(canvas);
+			Canvas canvas = new Canvas(windowWidth, windowHeight);
+
+			Label scoreLabel = new Label("Score: ");
+			scoreLabel.setFont(new Font("Verdana", 20));
+			scoreLabel.setFont(Font.font(null, FontWeight.BOLD, 20));
+			scoreLabel.setPadding(new Insets(0,5,10,5));
+		root.getChildren().addAll(canvas,scoreLabel);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 
 		Image gameBackground = new Image("images/background.jpg");
 		Image square = new Image("images/square.jpg");
+		Image singleSpike = new Image("images/spike.jpg");
 
 		final long startNanoTime = System.nanoTime();
 		final double dxdt = 0.0; //Speed
-		final double dydt = 20.0; //vertical speed
-		final double g = 75.0; //Restoring gravity
-		final double groundLevel = 332.0; //Ground level position
+		final double scrollSpeed = -200.0; //speed of obstacles & background
+		final double dydt = 75.0; //vertical speed
+		final double g = 400.0; //Restoring gravity
+		final double groundLevel = 322.0; //Ground level position
 		final ArrayList<Double> timeList = new ArrayList<Double>();
+		final double[] spikeLocations = {100.0, 200.0, 300.0, 400.0, 500.0, 600.0, 700.0, 800.0, 900.0, 1000.0};
 
 		MainCharacter mc = new MainCharacter(square, dxdt, dydt, 100.0, groundLevel);
-
+		ScrollingBackground scrollBg = new ScrollingBackground(gameBackground, scrollSpeed, 0.0, 0.0);
+		Spike spike = new Spike(singleSpike, scrollSpeed, 800.0, groundLevel-5);
 
 		new AnimationTimer() {
 			@Override
@@ -85,8 +94,10 @@ public class mainWindow extends Application {
 				}
 
 				final double x = dxdt*t;
+				final double xx = -scrollSpeed*t;
 				final double y = groundLevel;
 
+				// Jump-Key Sequence
 				scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
 				      if(key.getCode()==KeyCode.SPACE) {
 				          if (!mc.isFlying(groundLevel)) {
@@ -97,6 +108,7 @@ public class mainWindow extends Application {
 				      }
 				});
 
+				// Jump Physics Sequence
 				if (mc.getJump()) {
 					mc.jump(dydt, g, dt, groundLevel);
 				} else if (mc.getDoubleJump()) {
@@ -107,8 +119,31 @@ public class mainWindow extends Application {
 					mc.setTime(0.0);
 				}
 
-				gc.drawImage(gameBackground,0,0);
-				gc.drawImage(mc.getImage(), mc.getX(), mc.getY());
+				// Check for Collision
+				double spikeLeft = spike.getX() - (spike.getImage().getWidth()/2.0);
+				double spikeRight = spike.getX() + (spike.getImage().getWidth()/2.0);
+
+				System.out.println(mc.getY());
+
+				if (xx > spikeLeft && xx < spikeRight) {
+					if (mc.getY() > (spike.getY() - spike.getImage().getHeight())) {
+						mc.death();
+					}
+				}
+
+
+				if (mc.isAlive()) {
+					double score = t * 12;
+					scoreLabel.setText("Score: " + Integer.toString((int)score));
+
+					gc.drawImage(scrollBg.getImage(),scrollBg.scroll(x,dt),0);
+					gc.drawImage(spike.getImage(),spike.scroll(spike.getX(),dt),spike.getY());
+					gc.drawImage(mc.getImage(), mc.getX(), mc.getY());
+				} else {
+					gameWindow.setStyle("-fx-background-color: #FFFFFF;");
+					gameWindow.setCenter(new Label("your waifu is shit"));
+				}
+				
 			}
 		}.start();
 
