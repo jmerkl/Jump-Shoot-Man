@@ -70,7 +70,7 @@ public class mainWindow extends Application {
 
 		final long startNanoTime = System.nanoTime();
 		final double dxdt = 0.0; //Speed
-		final double scrollSpeed = -200.0; //speed of obstacles & background
+		final double scrollSpeed = -300.0; //speed of obstacles & background
 		final double dydt = 75.0; //vertical speed
 		final double g = 400.0; //Restoring gravity
 		final double groundLevel = 322.0; //Ground level position
@@ -123,14 +123,11 @@ public class mainWindow extends Application {
 				double spikeLeft = spike.getX() - (spike.getImage().getWidth()/2.0);
 				double spikeRight = spike.getX() + (spike.getImage().getWidth()/2.0);
 
-				System.out.println(mc.getY());
-
 				if (xx > spikeLeft && xx < spikeRight) {
 					if (mc.getY() > (spike.getY() - spike.getImage().getHeight())) {
 						mc.death();
 					}
 				}
-
 
 				if (mc.isAlive()) {
 					double score = t * 12;
