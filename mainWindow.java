@@ -65,21 +65,21 @@ public class mainWindow extends Application {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 
 		Image gameBackground = new Image("images/background.jpg");
-		Image square = new Image("images/square.jpg");
-		Image singleSpike = new Image("images/spike.jpg");
+		Image mainCharacter = new Image("images/sombrero.PNG", 50.0, 40.0, true, true);
+		Image singleSpike = new Image("images/trumpWall2.PNG", 50.0, 80.0, true, true);
 
 		final long startNanoTime = System.nanoTime();
 		final double dxdt = 0.0; //Speed
 		final double scrollSpeed = -400.0; //speed of obstacles & background
 		final double dydt = 75.0; //vertical speed
 		final double g = 400.0; //Restoring gravity
-		final double groundLevel = 322.0; //Ground level position
+		final double groundLevel = 325.0; //Ground level position
 		final ArrayList<Double> timeList = new ArrayList<Double>();
 		final double[] spikeLocations = {100.0, 200.0, 300.0, 400.0, 500.0, 600.0, 700.0, 800.0, 900.0, 1000.0};
 
-		MainCharacter mc = new MainCharacter(square, dxdt, dydt, 100.0, groundLevel);
+		MainCharacter mc = new MainCharacter(mainCharacter, dxdt, dydt, 100.0, groundLevel);
 		ScrollingBackground scrollBg = new ScrollingBackground(gameBackground, scrollSpeed, 0.0, 0.0);
-		Spike spike = new Spike(singleSpike, scrollSpeed, 800.0, groundLevel-5);
+		Spike spike = new Spike(singleSpike, scrollSpeed, 800.0, groundLevel-35.0);
 
 		new AnimationTimer() {
 			@Override
@@ -126,13 +126,19 @@ public class mainWindow extends Application {
 				if (xx > spikeLeft && xx < spikeRight) {
 					if (mc.getY() > (spike.getY() - spike.getImage().getHeight())) {
 						mc.death();
+					} else {
+						spike.setDxdt(spike.getDxdt() * 1.2);
+						//scrollBg.setDxdt(scrollBg.getDxdt() * 1.2);
 					}
 				}
+
+				System.out.println(spike.getDxdt());
 
 				if (xx > spikeLeft*1.2) {
 					spike.setX(xx+750.0);
 				}
 
+				//Continue or terminate the game
 				if (mc.isAlive()) {
 					double score = t * 12;
 					scoreLabel.setText("Score: " + Integer.toString((int)score));
