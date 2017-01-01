@@ -129,9 +129,8 @@ public class mainWindow extends Application {
 					}
 				}
 
-				System.out.println(xx);
 				if (xx > spikeLeft*1.2) {
-					spike.setX(xx+800.0);
+					spike.setX(xx+750.0);
 				}
 
 				if (mc.isAlive()) {
@@ -143,7 +142,7 @@ public class mainWindow extends Application {
 					gc.drawImage(mc.getImage(), mc.getX(), mc.getY());
 				} else {
 					gameWindow.setStyle("-fx-background-color: #FFFFFF;");
-					gameWindow.setCenter(new Label("man, you suck"));
+					gameWindow.setCenter(new Label("your waifu is shit"));
 				}
 				
 			}
