@@ -64,27 +64,24 @@ public class mainWindow extends Application {
 		root.getChildren().addAll(canvas,scoreLabel);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 
-		Button resetButton = new Button("Reset Game");
-
 		Image gameBackground = new Image("images/background.jpg");
 		Image mainCharacter = new Image("images/sombrero.PNG", 50.0, 40.0, true, true);
-		Image singleSpike = new Image("images/trumpWall2.PNG", 50.0, 100.0, true, true);
-		Image doubleSpike = new Image("images/doubleTrumpWall2.PNG", 50.0, 100.0, true, true);
+		Image singleSpike = new Image("images/trumpWall2.PNG", 50.0, 80.0, true, true);
 
 		final long startNanoTime = System.nanoTime();
-		final int spikeNum = 20;
 		final double dxdt = 0.0; //Speed
 		final double scrollSpeed = -400.0; //speed of obstacles & background
 		final double dydt = 75.0; //vertical speed
 		final double g = 400.0; //Restoring gravity
 		final double groundLevel = 325.0; //Ground level position
 		final ArrayList<Double> timeList = new ArrayList<Double>();
+		final double[] spikeLocations = {100.0, 200.0, 300.0, 400.0, 500.0, 600.0, 700.0, 800.0, 900.0, 1000.0};
 
 		MainCharacter mc = new MainCharacter(mainCharacter, dxdt, dydt, 100.0, groundLevel);
 		ScrollingBackground scrollBg = new ScrollingBackground(gameBackground, scrollSpeed, 0.0, 0.0);
 		Spike spike = new Spike(singleSpike, scrollSpeed, 800.0, groundLevel-35.0);
 
-		AnimationTimer gameLoop = new AnimationTimer() {
+		new AnimationTimer() {
 			@Override
 			public void handle(long currentNanoTime) {		
 				final double t = (currentNanoTime - startNanoTime) / 1000000000.0;
@@ -129,8 +126,13 @@ public class mainWindow extends Application {
 				if (xx > spikeLeft && xx < spikeRight) {
 					if (mc.getY() > (spike.getY() - spike.getImage().getHeight())) {
 						mc.death();
+					} else {
+						spike.setDxdt(spike.getDxdt() * 1.2);
+						//scrollBg.setDxdt(scrollBg.getDxdt() * 1.2);
 					}
 				}
+
+				System.out.println(spike.getDxdt());
 
 				if (xx > spikeLeft*1.2) {
 					spike.setX(xx+750.0);
@@ -150,15 +152,9 @@ public class mainWindow extends Application {
 				}
 				
 			}
-		};
+		}.start();
 
-		Button startButton = new Button("Start Game");
-		startButton.setOnAction(e -> {
-			gameLoop.start();
-			gameWindow.setCenter(root);
-		});
-
-		gameWindow.setCenter(startButton);
+		gameWindow.setCenter(root);
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.setTitle("Run & Jump Man");
