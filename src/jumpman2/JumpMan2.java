@@ -5,6 +5,7 @@
  */
 package jumpman2;
 
+import java.io.FileInputStream;
 	import javafx.application.Application;
 	import javafx.scene.image.Image;
 	import javafx.scene.image.ImageView;
@@ -31,7 +32,8 @@ package jumpman2;
 	import javafx.scene.effect.*;
 	import javafx.scene.paint.*;
 	import javafx.scene.text.*;
-
+        import sun.audio.*;
+        import javafx.scene.media.*;
 /**
  *
  * @author ezhou
@@ -40,8 +42,12 @@ public class JumpMan2 extends Application {
     Boolean visible = false;
     BorderPane window = new BorderPane();
      BorderPane homeWindow = new BorderPane();
+     MediaPlayer mediaPlayer;
+     
     public static void main(String[] args) {
+        
         launch(args);
+         
     }
     
      
@@ -49,14 +55,8 @@ public class JumpMan2 extends Application {
     @Override
     public void start(Stage primaryStage) {
         Stage stage = primaryStage;
-        Scene scene1, scene2;
-        Label label1; 
-        Button button;
-        VBox layout1;
-        HBox layout2;
-        HBox layout3;
-        Button button2;
-      
+        
+        
     
    
     
@@ -86,33 +86,57 @@ public class JumpMan2 extends Application {
         
     //    
         BorderPane homeWindow = new BorderPane();
-        Label Score = new Label("High Score: ");
+        Label Score = new Label("High Score: 9999999");
         
+        
+        //homebox is set for the homescreen 
         Button buttonEnter= new Button("Enter Game: ");
         buttonEnter.setPrefSize(100, 40);
+        VBox homebox = new VBox(30);
         buttonEnter.setOnAction(e -> {
                 visible = true;  
-                homeWindow.setVisible(!visible);
+                homebox.setVisible(!visible);
                 gameWindow.setVisible(visible);
         });
+        Label devLabel = new Label("Developed By: Jackson Merkel and Eddie Zhou");
+        
+      
+        homebox.setAlignment(Pos.CENTER);
+        homebox.getChildren().addAll(buttonEnter,Score,devLabel);
+       
+        
         
 
-        
-        
-        homeWindow.setCenter(buttonEnter);
-        homeWindow.setTop(Score);
-        //pane -> scene -> Stage
+//pane -> scene -> Stage
        BorderPane RootPane = new BorderPane();
-       //Root.getChildren().addAll(gameWindow, homeWindow);
-        RootPane.setCenter(homeWindow);
+       //RootPane.getChildren().addAll(gameWindow, homeWindow);
+        
+       
+        RootPane.setCenter(homebox);
         RootPane.setTop(gameWindow);
        
         Scene scene = new Scene(RootPane,800,500);
+        
+      
+        
+        Media musicFile = new Media("file:///C:/Users/Eddie/Documents/GitHub/Jump-Shoot-Man/mozart.mp3"); 
+        mediaPlayer = new MediaPlayer(musicFile);
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setVolume(0);
+//        String mozart = "mozart.mp3";
+//        Media hit = new Media(mozart);
+//        MediaPlayer media = new MediaPlayer(hit);
+//        media.play();
+
+
+
+       
         stage.setTitle("Game");
         stage.setScene(scene);
         stage.show();
-    
     }
-    
- }
+   
+      
+ 
 
+}

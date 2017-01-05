@@ -34,10 +34,14 @@
 	import javafx.collections.FXCollections;
 	import javafx.collections.ListChangeListener;
 	import javafx.collections.ObservableList;
+	import sun.audio.*;
+	import java.io.FileInputStream;
+	import javafx.scene.media.*;
 
 public class mainWindow extends Application {
-
+	MediaPlayer mediaPlayer;
 	public static void main(String[] args) {
+		
 		launch(args);
 	}
 
@@ -155,9 +159,30 @@ public class mainWindow extends Application {
 		}.start();
 
 		gameWindow.setCenter(root);
+	
+
+
+	//BGM for the game 	 
+       Media musicFile = new Media("file:///C:/Users/Eddie/Documents/GitHub/Jump-Shoot-Man/OWA.mp3"); 
+       mediaPlayer = new MediaPlayer(musicFile);
+       mediaPlayer.setAutoPlay(true);
+       mediaPlayer.setVolume(.3);
+
+
+
+
+
+
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.setTitle("Run & Jump Man");
 		stage.show();
+	
+
 	}
+
+
+
+
+
 }
