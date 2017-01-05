@@ -57,6 +57,10 @@ public class MainCharacter {
 		x = x + dxdt*dt;
 	}
 
+	public void revive() {
+		alive = true;
+	}
+
 	public boolean isAlive() {
 		return alive;
 	}
