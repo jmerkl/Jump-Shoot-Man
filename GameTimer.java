@@ -2,7 +2,7 @@ public class GameTimer {
 
 	int songInt = 0;
 	double time = 0.0;
-	double dt = 0.016;
+	double dt = 0.004;
 	boolean reset = true;
 
 	public GameTimer() {}

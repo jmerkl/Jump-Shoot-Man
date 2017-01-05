@@ -90,13 +90,14 @@ public class mainWindow extends Application {
 			Image gameBackground = new Image("images/background.jpg");
 			Image mainCharacter = new Image("images/sombrero.PNG", 50.0, 40.0, true, true);
 			Image singleSpike = new Image("images/trumpWall2.PNG", 50.0, 80.0, true, true);
+			Image doubleSpike = new Image("images/predator.PNG", 80.0, 100.0, true, true);
 
 			final GameTimer timer = new GameTimer();
 
 			final double dxdt = 0.0; //Speed
-			final double scrollSpeed = -400.0; //speed of obstacles & background
-			final double dydt = 75.0; //vertical speed
-			final double g = 400.0; //Restoring gravity
+			final double scrollSpeed = -1600.0; //speed of obstacles & background
+			final double dydt = 150.0; //vertical speed
+			final double g = 3000.0; //Restoring gravity
 			final double groundLevel = 325.0; //Ground level position
 			final ArrayList<Double> timeList = new ArrayList<Double>();
 			final double[] spikeLocations = {100.0, 200.0, 300.0, 400.0, 500.0, 600.0, 700.0, 800.0, 900.0, 1000.0};
@@ -104,6 +105,7 @@ public class mainWindow extends Application {
 			MainCharacter mc = new MainCharacter(mainCharacter, dxdt, dydt, 100.0, groundLevel);
 			ScrollingBackground scrollBg = new ScrollingBackground(gameBackground, scrollSpeed, 0.0, 0.0);
 			Spike spike = new Spike(singleSpike, scrollSpeed, (double)windowWidth + 50.0, groundLevel-35.0);
+			Spike spikes = new Spike(doubleSpike, scrollSpeed, (double)windowWidth + 150.0, 100.0);
 
 		// Game Loop
 			AnimationTimer gameLoop = new AnimationTimer() {
@@ -117,7 +119,10 @@ public class mainWindow extends Application {
 						scrollBg.setX(0.0);
 
 						spike.setX((double)windowWidth + 50.0);
+						spikes.setX((double)windowWidth + 150.0);
+
 						spike.pass();
+						spikes.pass();
 
 						timer.setSongInt(0);
 						songs.get(timer.getSongInt()).play();
@@ -168,26 +173,38 @@ public class mainWindow extends Application {
 						}
 
 					// Check for Collision
-						double spikeLeft = spike.getX() - (spike.getImage().getWidth()/2.0) - mc.getX();
-						double spikeRight = spike.getX() + (spike.getImage().getWidth()/2.0) - mc.getX();
+						double singleSpikeLeft = spike.getX() - (spike.getImage().getWidth()/2.0) - mc.getX();
+						double singleSpikeRight = spike.getX() + (spike.getImage().getWidth()/2.0) - mc.getX();
+						double doubleSpikeLeft = spikes.getX() - (spikes.getImage().getWidth()/2.0) - mc.getX();
+						double doubleSpikeRight = spikes.getX() + (spikes.getImage().getWidth()/2.0) - mc.getX();
 
-						if (xx > spikeLeft && xx < spikeRight) {
+						if (xx > singleSpikeLeft && xx < singleSpikeRight) {
 							if (mc.getY() > (spike.getY() - spike.getImage().getHeight())) {
-								//mc.death();
+								mc.death();
 							}
 						}
 
-						if (xx > spikeLeft*1.2) {
+						if (xx > doubleSpikeLeft && xx < doubleSpikeRight) {
+							if ((mc.getY()-mc.getImage().getHeight()) < (spikes.getY() + spikes.getImage().getHeight())) {
+								mc.death();
+							}
+						}
+
+						if (xx > singleSpikeLeft*1.2) {
 							spike.setX(xx+750.0);
+						}
+						if (xx > doubleSpikeLeft*1.2) {
+							spikes.setX(xx+900.0);
 						}
 
 					//Continue or terminate the game
 						if (mc.isAlive()) {
-							double score = t * 12;
+							double score = t * 24;
 							scoreLabel.setText("Score: " + Integer.toString((int)score));
 
 							gc.drawImage(scrollBg.getImage(),scrollBg.scroll(x,dt),0);
 							gc.drawImage(spike.getImage(),spike.scroll(spike.getX(),dt),spike.getY());
+							gc.drawImage(spikes.getImage(),spikes.scroll(spike.getX(),dt),spikes.getY());
 							gc.drawImage(mc.getImage(), mc.getX(), mc.getY());
 						} else if (!mc.isAlive()) {
 							stop();
