@@ -148,7 +148,7 @@ public class mainWindow extends Application {
 					gc.drawImage(mc.getImage(), mc.getX(), mc.getY());
 				} else {
 					gameWindow.setStyle("-fx-background-color: #FFFFFF;");
-					gameWindow.setCenter(new Label("your waifu is shit"));
+					gameWindow.setCenter(new Label("terrorists win"));
 				}
 				
 			}
