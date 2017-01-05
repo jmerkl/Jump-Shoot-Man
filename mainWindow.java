@@ -34,10 +34,14 @@
 	import javafx.collections.FXCollections;
 	import javafx.collections.ListChangeListener;
 	import javafx.collections.ObservableList;
+	import sun.audio.*;
+	import java.io.FileInputStream;
+	import javafx.scene.media.*;
 
 public class mainWindow extends Application {
-
+	MediaPlayer mediaPlayer;
 	public static void main(String[] args) {
+		
 		launch(args);
 	}
 
@@ -155,6 +159,8 @@ public class mainWindow extends Application {
 		}.start();
 
 		gameWindow.setCenter(root);
+
+
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.setTitle("Run & Jump Man");
