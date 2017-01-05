@@ -130,13 +130,8 @@ public class mainWindow extends Application {
 				if (xx > spikeLeft && xx < spikeRight) {
 					if (mc.getY() > (spike.getY() - spike.getImage().getHeight())) {
 						mc.death();
-					} else {
-						spike.setDxdt(spike.getDxdt() * 1.2);
-						//scrollBg.setDxdt(scrollBg.getDxdt() * 1.2);
 					}
 				}
-
-				System.out.println(spike.getDxdt());
 
 				if (xx > spikeLeft*1.2) {
 					spike.setX(xx+750.0);
