@@ -1,5 +1,11 @@
 import javafx.scene.image.Image;
 
+/**
+* Governs coordinates of side scrolling background and when to reset for parallax effect.
+* @author Jackson M.
+* @version 1.0
+*/
+
 public class ScrollingBackground extends Obstacle {
 	
 	Image objImage;

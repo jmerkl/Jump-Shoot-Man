@@ -1,5 +1,11 @@
 import javafx.scene.image.Image;
 
+/**
+* Super class of any collision objects and scrolling background. Holds true coordinates.
+* @author Jackson M.
+* @version 1.0
+*/
+
 public class Obstacle {
 	
 	Image objImage;

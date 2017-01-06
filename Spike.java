@@ -1,5 +1,11 @@
 import javafx.scene.image.Image;
 
+/**
+* Any collision obstacle in the game
+* @author Jackson M.
+* @version 1.0
+*/
+
 public class Spike extends Obstacle {
 	
 	Image objImage;

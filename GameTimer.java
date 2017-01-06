@@ -1,3 +1,9 @@
+/**
+* Artificial discrete game timer to replace auto AnimationTimer. Used in song shuffling.
+* @author Jackson M.
+* @version 1.0
+*/
+
 public class GameTimer {
 
 	int songInt = 0;

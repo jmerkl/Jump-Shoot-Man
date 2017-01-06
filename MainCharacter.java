@@ -1,5 +1,11 @@
 import javafx.scene.image.Image;
 
+/**
+* Main character of the game
+* @author Jackson M.
+* @version 1.0
+*/
+
 public class MainCharacter {
 	
 	Image mcImage;
