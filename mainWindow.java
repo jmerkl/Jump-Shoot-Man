@@ -41,8 +41,10 @@
 
 /**
 * GUI and animation for the core game
+* Available online at jmerkl.github.io
 * @author Jackson M.
 * @version 1.0
+* Memes are king
 */
 public class mainWindow extends Application {
 
