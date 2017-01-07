@@ -276,7 +276,7 @@ public class mainWindow extends Application {
 		// UI Element Functionality
 			startButton.setOnAction(e -> {
 				mainWindow.setCenter(gameWindow);
-				mainWindow.setStyle("-fx-background-color: #f5f5dc;");
+				mainWindow.setStyle("-fx-background-color: #000000;");
 
 				timer.reset();
 				gameLoop.start();
@@ -289,6 +289,7 @@ public class mainWindow extends Application {
 				timer.reset();
 				gameLoop.start();
 				nameButton.setDisable(false);
+				nameField.clear();
 
 				mainWindow.setCenter(gameWindow);
 				mainWindow.setStyle("-fx-background-color: #f5f5dc;");
