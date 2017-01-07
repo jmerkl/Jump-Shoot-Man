@@ -55,7 +55,7 @@ public class mainWindow extends Application {
 		BorderPane mainWindow = new BorderPane();
 		BorderPane gameWindow = new BorderPane();
 		mainWindow.setPrefSize(windowWidth, windowHeight);
-		mainWindow.setStyle("-fx-background-color: #000000;");
+		mainWindow.setStyle("-fx-background-color: #FFFAF0;");
 
 		Scene scene = new Scene(mainWindow);
 
@@ -232,7 +232,7 @@ public class mainWindow extends Application {
 		// UI Element Functionality
 			startButton.setOnAction(e -> {
 				mainWindow.setCenter(gameWindow);
-				mainWindow.setStyle("-fx-background-color: #000000;");
+				mainWindow.setStyle("-fx-background-color: #f5f5dc;");
 
 				timer.reset();
 				gameLoop.start();
@@ -246,7 +246,7 @@ public class mainWindow extends Application {
 				gameLoop.start();
 
 				mainWindow.setCenter(gameWindow);
-				mainWindow.setStyle("-fx-background-color: #000000;");
+				mainWindow.setStyle("-fx-background-color: #f5f5dc;");
 			});
 
 
