@@ -39,6 +39,11 @@
 	import javafx.scene.media.Media;
 	import javafx.scene.media.MediaPlayer;
 
+/**
+* GUI and animation for the core game
+* @author Jackson M.
+* @version 1.0
+*/
 public class mainWindow extends Application {
 
 	public static void main(String[] args) {
@@ -69,12 +74,49 @@ public class mainWindow extends Application {
 		root.getChildren().addAll(canvas,scoreLabel);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 
-		// Game UI Elements
+		// Start Pane UI
 			Button startButton = new Button("Start");
 			startButton.setFont(new Font("Verdana", 18));
 
-			Button resetButton = new Button("Reset");
-			resetButton.setFont(new Font("Verdana", 18));
+		// Reset & Hiscores UI
+			BorderPane resetPane = new BorderPane();
+			resetPane.setStyle("-fx-background-color: #FFFFFF;");
+				Button resetButton = new Button("Reset");
+				resetButton.setFont(new Font("Verdana", 18));
+
+				HBox resetButtonBox = new HBox();
+				resetButtonBox.getChildren().addAll(resetButton);
+				resetButtonBox.setAlignment(Pos.CENTER);
+				resetButtonBox.setPadding(new Insets(5,0,0,0));
+
+				Button nameButton = new Button("Enter Score");
+				nameButton.setFont(new Font("Verdana", 18));
+
+				VBox resetBox = new VBox(10);
+				resetBox.setAlignment(Pos.CENTER);
+
+				TextField nameField = new TextField();
+				Label finalScoreLabel = new Label(scoreLabel.getText());
+				finalScoreLabel.setFont(new Font("Verdana", 20));
+				finalScoreLabel.setFont(Font.font(null, FontWeight.BOLD, 20));
+				nameField.setMaxWidth(200);
+				resetBox.getChildren().addAll(finalScoreLabel, nameField, nameButton);
+
+				Records records = new Records("memory files/hiscores.txt");
+
+				ObservableList<String> hiscoreList = FXCollections.observableArrayList(records.getScoreList());
+				ListView<String> hiscoreView = new ListView<String>(hiscoreList);
+				Label hiscoreLabel = new Label("Hiscores");
+				hiscoreLabel.setFont(new Font("Verdana", 18));
+
+				VBox hsBox = new VBox(10);
+				hsBox.getChildren().addAll(hiscoreLabel, hiscoreView);
+				hsBox.setAlignment(Pos.CENTER);
+				hsBox.setPadding(new Insets(0,0,50,0));
+			resetPane.setLeft(resetBox);
+			resetPane.setRight(hsBox);
+			resetPane.setBottom(resetButtonBox);
+			resetPane.setPadding(new Insets(10,100,10,100));
 
 			mainWindow.setCenter(startButton);
 
@@ -206,10 +248,12 @@ public class mainWindow extends Application {
 							gc.drawImage(spike.getImage(),spike.scroll(spike.getX(),dt),spike.getY());
 							gc.drawImage(spikes.getImage(),spikes.scroll(spike.getX(),dt),spikes.getY());
 							gc.drawImage(mc.getImage(), mc.getX(), mc.getY());
-						} else if (!mc.isAlive()) {
+						} else {
 							stop();
+							double score = t * 24;
+							finalScoreLabel.setText("Score: " + Integer.toString((int)score));
 							songs.get(timer.getSongInt()).stop();
-							mainWindow.setCenter(resetButton);
+							mainWindow.setCenter(resetPane);
 						}
 
 					//Shuffle Playlist or Reset Music
@@ -223,9 +267,7 @@ public class mainWindow extends Application {
 								}
 								songs.get(timer.getSongInt()).play();
 						    }
-						});
-						
-					
+						});					
 				}
 			};
 
@@ -244,9 +286,25 @@ public class mainWindow extends Application {
 
 				timer.reset();
 				gameLoop.start();
+				nameButton.setDisable(false);
 
 				mainWindow.setCenter(gameWindow);
 				mainWindow.setStyle("-fx-background-color: #f5f5dc;");
+			});
+
+			nameButton.setOnAction(e -> {
+				String name = nameField.getText();
+				String[] halves = finalScoreLabel.getText().split(": ");
+				int plyScore = Integer.parseInt(halves[1]);
+				records.updateScores(new Scores(name, plyScore));
+
+				nameField.clear();
+
+				hsBox.getChildren().clear();
+				hsBox.getChildren().addAll(hiscoreLabel, new ListView<String>(FXCollections.observableArrayList(records.getScoreList())));
+				hsBox.setAlignment(Pos.CENTER);
+
+				nameButton.setDisable(true);
 			});
 
 
